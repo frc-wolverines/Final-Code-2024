@@ -10,10 +10,10 @@ public class ConfigurableMotionProfile {
     private boolean accelerationLimitingEnabled = false;
     private boolean variableSpeedEnabled = false;
 
-    private dualSpeedMotionController dualSpeedController = null;
-    private triSpeedMotionController triSpeedController = null;
+    private dualSpeedMotionController dualSpeedController = new dualSpeedMotionController();
+    private triSpeedMotionController triSpeedController = new triSpeedMotionController();
 
-    private SlewRateLimiter accelLimiter = null;
+    private SlewRateLimiter accelLimiter = new SlewRateLimiter(0);
 
     public enum VariableSpeedMode {
         INCREASE,

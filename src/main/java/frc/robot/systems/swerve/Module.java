@@ -6,6 +6,7 @@ import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
 import frc.montylib.hardware.NEOv1;
@@ -65,6 +66,14 @@ public class Module {
         return Rotation2d.fromRadians(getPivotPosition());
     }
 
+    public SwerveModuleState getState() {
+        return new SwerveModuleState(getDriveVelocity(), getRotation2d());
+    }
+
+    public SwerveModulePosition getPosition() {
+        return new SwerveModulePosition(getDrivePosition(), getRotation2d());
+    }
+
     //Movement
     public void setDesiredState(SwerveModuleState state) {
 
@@ -75,7 +84,7 @@ public class Module {
 
         state = SwerveModuleState.optimize(state, getRotation2d());
 
-        driveNEO.set(state.speedMetersPerSecond / ModuleConstants.kMaxModuleSpeed);
+        driveNEO.set(state.speedMetersPerSecond);
         pivotNEO.set(pivotController.calculate(getPivotPosition(), state.angle.getRadians()));
 
     }
@@ -92,7 +101,7 @@ public class Module {
     }
 
     public void zeroPivotEncoder() {
-
+        pivotEncoder.setPosition(getAbsolutePosition());
     }
 
     public void configureDriveEncoder() {

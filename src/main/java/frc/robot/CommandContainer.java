@@ -6,9 +6,20 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.systems.swerve.Drive;
+import frc.robot.systems.swerve.commands.SwerveTeleController;
 
 public class CommandContainer {
+
+  public Drive swerveDrive = new Drive();
+
+  public CommandXboxController controller = new CommandXboxController(0);
+
   public CommandContainer() {
+
+    swerveDrive.setDefaultCommand(new SwerveTeleController(swerveDrive, controller));
+
     configureBindings();
   }
 
